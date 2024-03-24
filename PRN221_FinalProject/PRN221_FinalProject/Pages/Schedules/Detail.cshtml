@@ -1,0 +1,84 @@
+﻿@page "{SlotId?}"
+@model PRN221_FinalProject.Pages.Schedules.DetailModel
+@{
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div class="form-group">
+                    <label for="classSelect">Class:</label>
+                    <select id="classSelect" name="ClassId" class="form-control">
+                        @foreach (var classItem in Model.classes)
+                        {
+                            bool isSelected = classItem.ClassId == Model.slot.ClassId;
+                            <option value="@classItem.ClassId" selected="@isSelected">
+                                @classItem.ClassName
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subjectSelect">Subject:</label>
+                    <select id="subjectSelect" name="SubjectId" class="form-control">
+                        @foreach (var subjectItem in Model.subjects)
+                        {
+                            bool isSelected = subjectItem.SubjectId == Model.slot.SubjectId;
+                            <option value="@subjectItem.SubjectId" selected="@isSelected">
+                                @subjectItem.SubjectName
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="teacherSelect">Teacher:</label>
+                    <select id="teacherSelect" name="TeacherId" class="form-control">
+                        @foreach (var teacherItem in Model.teachers)
+                        {
+                            bool isSelected = teacherItem.TeacherId == Model.slot.TeacherId;
+                            <option value="@teacherItem.TeacherId" selected="@isSelected">
+                                @teacherItem.TeacherName
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="roomSelect">Room:</label>
+                    <select id="roomSelect" name="RoomId" class="form-control">
+                        @foreach (var roomItem in Model.rooms)
+                        {
+                            bool isSelected = roomItem.RoomId == Model.slot.RoomId;
+                            <option value="@roomItem.RoomId" selected="@isSelected">
+                                @roomItem.RoomName
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="timeSlotInput">Time Slot:</label>
+                    <input type="text" id="timeSlotInput" name="timeSlot" value="@Model.slot.TimeSlot.Code" class="form-control" />
+                </div>
+                <input type="hidden" name="SlotId" value="@Model.slot.SlotId" />
+                <input type="hidden" name="WeekNumber" value="@Model.slot.WeekNumber" />
+                <button type="submit" class="btn btn-primary" name="handler" value="update">Update</button>
+                <button type="submit" class="btn btn-danger" name="handler" value="delete">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <a href="/Schedules/Import" class="btn btn-secondary">Import your schedule</a>
+    @if (Model.Errors != null && Model.Errors.Any())
+    {
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach (var error in Model.Errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
+    }
+</div>

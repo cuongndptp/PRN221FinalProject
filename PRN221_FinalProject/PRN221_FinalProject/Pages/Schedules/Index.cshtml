@@ -1,0 +1,74 @@
+﻿@page "{WeekNumber?}"
+@model PRN221_FinalProject.Pages.Schedules.IndexModel
+@{
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Room</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var room in Model.Rooms)
+                    {
+                        <tr>
+                            <td>@room.RoomName</td>
+                            @foreach (var day in Model.Days)
+                            {
+                                <td>
+                                    @foreach (var slot in Model.Slots)
+                                    {
+                                        @if (slot.TimeSlot.FirstDay == day && slot.Room.RoomName.Equals(room.RoomName) || slot.TimeSlot.SecondDay == day && slot.Room.RoomName.Equals(room.RoomName))
+                                        {
+                                            <div><a href="/Schedules/Detail/@slot.SlotId" class="btn btn-link">@slot.TimeSlot.Code - @slot.Subject.SubjectName - @slot.Teacher.TeacherName - @slot.Class.ClassName</a></div>
+                                        }
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <a href="/Schedules/Import" class="btn btn-secondary">Import your schedule</a>
+                @if (Model.Errors != null && Model.Errors.Any())
+                {
+                    <div class="alert alert-danger mt-3">
+                        <ul>
+                            @foreach (var error in Model.Errors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="mt-3">
+                @if (Model.WeekNumber > 1)
+                {
+                    <a class="btn btn-primary mr-2" asp-page="./Index" asp-route-WeekNumber="@(Model.WeekNumber - 1)">Previous Week</a>
+                }
+
+                    <a class="btn btn-primary mr-2" asp-page="./Index" asp-route-WeekNumber="@(Model.WeekNumber + 1)">Next Week</a>
+
+                <a class="btn btn-success" href="/Schedules/Add">Add Slot</a>
+            </div>
+        </div>
+    </div>
+</div>

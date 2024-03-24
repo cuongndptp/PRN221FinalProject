@@ -1,0 +1,17 @@
+﻿@page
+@model PRN221_FinalProject.Pages.Schedules.ImportModel
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="number" name="weekNumber" placeholder="Week Number" />
+    <button type="submit">Import</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
